@@ -1,9 +1,9 @@
 CC=g++
 CFLAGS=-c -Wall
-LDFLAGS=-lSDL
-SOURCES=main.cpp Renderer.cpp GuiComponent.cpp GuiTitleScreen.cpp
+LDFLAGS=-lSDL -lSDL_ttf
+SOURCES=main.cpp Renderer.cpp GuiComponent.cpp GuiTitleScreen.cpp InputManager.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=renderer_example
+EXECUTABLE=frontend
 
 all: $(SOURCES) $(EXECUTABLE)
 
