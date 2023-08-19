@@ -4,6 +4,9 @@
 #include "Renderer.h"
 #include "GuiTitleScreen.h"
 #include "InputManager.h"
+#include "SystemData.h"
+#include "GuiGameList.h"
+
 
 int main()
 {
@@ -23,7 +26,10 @@ int main()
     }
 
     SDL_ShowCursor(false);
-    GuiTitleScreen* testGui = new GuiTitleScreen();
+    //GuiTitleScreen* testGui = new GuiTitleScreen();
+    
+    SystemData* testSystem = new SystemData("Test", "./testdir/", ".smc");
+    GuiGameList* testGui = new GuiGameList(testSystem);
 
     bool running = true;
     while (running) {
@@ -47,6 +53,7 @@ int main()
     }
 
     delete testGui;
+    delete testSystem;
     TTF_Quit();
     SDL_Quit();
     return 0;

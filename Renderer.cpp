@@ -82,7 +82,7 @@ void Renderer::drawCenteredText(std::string text, Sint16 y, SDL_Color& color)
 
 void Renderer::loadFonts()
 {
-    font = TTF_OpenFont("LinLibertine_R.ttf", 72);
+    font = TTF_OpenFont("LinLibertine_R.ttf", 48);
     if (!font) {
         std::cerr << "Error - could not load font!\n";
         std::cerr << TTF_GetError() << "\n";
