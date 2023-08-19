@@ -12,11 +12,13 @@ int main()
 {
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         std::cerr << "Error - could not initialize SDL!\n";
+        std::cerr << "	" << SDL_GetError() << "\n";
         return 1;
     }
 
     if (TTF_Init() != 0) {
         std::cerr << "Error - could not initialize SDL_ttf\n";
+        std::cerr << "	" << TTF_GetError() << "\n";
     }
 
     Renderer::screen = SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE);
@@ -26,9 +28,9 @@ int main()
     }
 
     SDL_ShowCursor(false);
-    //GuiTitleScreen* testGui = new GuiTitleScreen();
+    SDL_EnableKeyRepeat(500, 100);
     
-    SystemData* testSystem = new SystemData("Test", "./testdir/", ".smc");
+    SystemData* testSystem = SystemData::loadConfig("./systems.cfg").at(0);
     GuiGameList* testGui = new GuiGameList(testSystem);
 
     bool running = true;
