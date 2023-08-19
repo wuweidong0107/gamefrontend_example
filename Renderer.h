@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
+#include <string>
 
 class GuiComponent;
 
@@ -15,9 +17,19 @@ namespace Renderer
     void registerComponent(GuiComponent* comp);
     void unregisterComponent(GuiComponent* comp);
     void render();
-    extern SDL_Surface* screen;
 
+    extern SDL_Surface* screen;
+    extern TTF_Font* font;
+
+    unsigned int getScreenWidth();
+    unsigned int getScreenHeight();
+
+    // drawing commands
     void drawRect(Sint16 x, Sint16 y, Uint16 h, Uint16 w, int color);
+    void drawText(std::string text, Sint16 x, Sint16 y, SDL_Color& color);
+    void drawCenteredText(std::string text, Sint16 y, SDL_Color& color);
+
+    void loadFonts();
 }
 
 #endif
