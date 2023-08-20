@@ -1,20 +1,52 @@
 #include "GUIList.h"
 #include <SDL/SDL.h>
+#include <iostream>
 
 GuiList::GuiList()
 {
     mSelection = 0;
+    InputManager::registerComponent(this);
+}
+
+GuiList::~GuiList()
+{
+    InputManager::unregisterComponent(this);
 }
 
 void GuiList::onRender()
 {
     int y = 40;
     SDL_Color color = {0, 0, 0xFF};
+
+    if (mNameVector.size() == 0) {
+        Renderer::drawCenteredText("This list is empty", y, color);
+        return;
+    }
+
     for (unsigned int i=0; i<mNameVector.size(); i++) {
+        if (mSelection == (int)i) {
+            Renderer::drawRect(0, y, Renderer::getScreenWidth(), 52, 0x000000);
+        }
         Renderer::drawCenteredText(mNameVector.at(i), y, color);
-        y += 35;
+        y += 40;
     }
 }
+
+void GuiList::onInput(InputManager::InputButton button, bool keyDown)
+{
+    if (mNameVector.size() > 0 && keyDown) {
+        if (button == InputManager::DOWN)
+            mSelection++;
+        if (button == InputManager::UP)
+            mSelection--;
+		if(mSelection < 0)
+			mSelection += mNameVector.size();
+		if(mSelection >= (int)mNameVector.size())
+			mSelection -= mNameVector.size();
+    }
+    std::cout << "select: " << mSelection << "\n";
+}
+
 
 void GuiList::addObject(std::string name, void* obj)
 {

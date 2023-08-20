@@ -10,6 +10,13 @@ GuiGameList::GuiGameList(SystemData* system)
     addChild(mList);
 
     Renderer::registerComponent(this);
+    InputManager::registerComponent(this);
+}
+
+GuiGameList::~GuiGameList()
+{
+    Renderer::unregisterComponent(this);
+    InputManager::unregisterComponent(this);
 }
 
 void GuiGameList::updateList()
@@ -27,4 +34,9 @@ void GuiGameList::onRender()
     Renderer::drawRect(0, 0, 640, 480, 0xFFFFFF);
     SDL_Color color = {0, 155,100};
     Renderer::drawCenteredText(mSystem->getName(), 2, color);
+}
+
+void GuiGameList::onInput(InputManager::InputButton button, bool keyDown)
+{
+    
 }

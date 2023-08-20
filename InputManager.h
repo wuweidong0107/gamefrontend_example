@@ -4,9 +4,16 @@
 #include <vector>
 #include <SDL/SDL.h>
 
+class GuiComponent;
+
 namespace InputManager {
+    void registerComponent(GuiComponent* comp);
+    void unregisterComponent(GuiComponent* comp);
+
     enum InputButton { UP, DOWN, LEFT, RIGHT, BUTTON1, BUTTON2};
     void processEvent(SDL_Event* event);
+
+    extern std::vector<GuiComponent*> inputVector;
 }
 
 #endif

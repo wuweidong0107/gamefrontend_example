@@ -7,8 +7,11 @@ class GuiList : public GuiComponent
 {
 public:
     GuiList();
+    ~GuiList();
 
     void onRender();
+    void onInput(InputManager::InputButton button, bool keyDown);
+
     void addObject(std::string name, void* obj);
     void clear();
     
@@ -18,7 +21,7 @@ public:
 private:
     std::vector<std::string> mNameVector;
     std::vector<void*> mPointerVector;
-    unsigned int mSelection;
+    int mSelection;
 };
 
 #endif
