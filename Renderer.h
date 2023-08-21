@@ -26,8 +26,8 @@ namespace Renderer
 
     // drawing commands
     void drawRect(Sint16 x, Sint16 y, Uint16 h, Uint16 w, int color);
-    void drawText(std::string text, Sint16 x, Sint16 y, SDL_Color& color);
-    void drawCenteredText(std::string text, Sint16 y, SDL_Color& color);
+    void drawText(std::string text, Sint16 x, Sint16 y, int color);
+    void drawCenteredText(std::string text, Sint16 y, int color);
 
     void loadFonts();
 }

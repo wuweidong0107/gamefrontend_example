@@ -16,7 +16,7 @@ GuiList::~GuiList()
 void GuiList::onRender()
 {
     int y = 40;
-    SDL_Color color = {0, 0, 0xFF};
+    int color =  0xFF0000;
 
     if (mNameVector.size() == 0) {
         Renderer::drawCenteredText("This list is empty", y, color);

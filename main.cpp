@@ -21,7 +21,7 @@ int main()
         std::cerr << "	" << TTF_GetError() << "\n";
     }
 
-    Renderer::screen = SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE);
+    Renderer::screen = SDL_SetVideoMode(Renderer::getScreenWidth(), Renderer::getScreenHeight(), 16, SDL_SWSURFACE);
     if (Renderer::screen == NULL) {
         std::cerr << "Error - could not set video mode!\n";
         return 1;
