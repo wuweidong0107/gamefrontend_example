@@ -30,8 +30,8 @@ int main()
     SDL_ShowCursor(false);
     SDL_EnableKeyRepeat(500, 100);
     
-    SystemData* testSystem = SystemData::loadConfig("./systems.cfg").at(0);
-    GuiGameList* testGui = new GuiGameList(testSystem);
+    SystemData::loadConfig("./systems.cfg");
+    GuiGameList* testGui = new GuiGameList();
 
     bool running = true;
     while (running) {
@@ -55,7 +55,7 @@ int main()
     }
 
     delete testGui;
-    delete testSystem;
+    SystemData::deleteSystems();
     TTF_Quit();
     SDL_Quit();
     return 0;

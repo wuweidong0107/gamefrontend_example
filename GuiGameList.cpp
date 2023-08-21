@@ -1,13 +1,12 @@
 #include "GuiGameList.h"
 #include "Renderer.h"
 
-GuiGameList::GuiGameList(SystemData* system)
+GuiGameList::GuiGameList()
 {
-    mSystem = system;
-    mList = new GuiList();
-    updateList();
-    
+    mList = new GuiList();   
     addChild(mList);
+
+    setSystemId(0);
 
     Renderer::registerComponent(this);
     InputManager::registerComponent(this);
@@ -17,6 +16,20 @@ GuiGameList::~GuiGameList()
 {
     Renderer::unregisterComponent(this);
     InputManager::unregisterComponent(this);
+    delete mList;
+}
+
+void GuiGameList::setSystemId(int id)
+{
+    if (id >= (int)SystemData::sSystemVector.size()) {
+        id -= SystemData::sSystemVector.size();
+    }
+    if (id < 0)
+        id += SystemData::sSystemVector.size();
+    
+    mSystemId = id;
+    mSystem = SystemData::sSystemVector.at(mSystemId);
+    updateList();
 }
 
 void GuiGameList::updateList()
@@ -38,7 +51,16 @@ void GuiGameList::onRender()
 
 void GuiGameList::onInput(InputManager::InputButton button, bool keyDown)
 {
-    if (button == InputManager::BUTTON1 && keyDown) {
-        mSystem->launchGame(mList->getSelection());
+    if (button == InputManager::BUTTON1 && keyDown
+        && mSystem->getGameCount() > 0) {
+        if (!keyDown)
+            mSystem->launchGame(mList->getSelection());
+    }
+
+    if (button == InputManager::RIGHT && keyDown) {
+        setSystemId(mSystemId + 1);
+    }
+    if (button == InputManager::LEFT && keyDown) {
+        setSystemId(mSystemId -1);
     }
 }

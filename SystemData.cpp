@@ -6,6 +6,8 @@
 #include <fstream>
 #include <stdlib.h>
 
+std::vector<SystemData*> SystemData::sSystemVector;
+
 namespace fs = boost::filesystem;
 
 SystemData::SystemData(std::string name, std::string startPath, std::string extension, std::string command)
@@ -85,11 +87,10 @@ void SystemData::launchGame(unsigned int i)
     system(command.c_str());
 }
 
-std::vector<SystemData*> SystemData::loadConfig(std::string path)
+void SystemData::loadConfig(std::string path)
 {
-   std::cout << "Loading system config file \"" << path << "\"...\n";
-   std::vector<SystemData*> returnVec;
-
+    std::cout << "Loading system config file \"" << path << "\"...\n";
+    deleteSystems();
     std::ifstream file(path.c_str());
 
     if (file.is_open()) {
@@ -97,8 +98,7 @@ std::vector<SystemData*> SystemData::loadConfig(std::string path)
         std::string sysName, sysPath, sysExtension, sysCommand;
         while(file.good()) {
             std::getline(file, line);
-            std::cout<<"++++++++"<<line<<"\n";
-            if (line.empty())
+            if (line.empty() || line[0] == *"#")
                 continue;
             
             bool lineValid = false;
@@ -125,19 +125,26 @@ std::vector<SystemData*> SystemData::loadConfig(std::string path)
                 else
                     std::cerr << "Error reading config file - unknown variable name \"" << varName << "\"!\n";
                 if (!sysName.empty() && !sysPath.empty() && !sysExtension.empty() && !sysCommand.empty()) {
-                    returnVec.push_back(new SystemData(sysName, sysPath, sysExtension, sysCommand));
-                    sysName = ""; sysPath = ""; sysExtension = "";
+                    sSystemVector.push_back(new SystemData(sysName, sysPath, sysExtension, sysCommand));
+                    sysName = ""; sysPath = ""; sysExtension = ""; sysCommand = "";
                 } 
             } else {
                 std::cerr << "Error reading config file \"" << path << "\" - no equals sign found on line \"" << line << "\"!\n";
-				return returnVec;
             }
         }
     } else {
         std::cerr << "Error - could not load config file \"" << path << "\"!\n";
-        return returnVec;
+        return;
     }
 
-    std::cout << "Finished loading config file - created " << returnVec.size() << " systems.\n";
-	return returnVec;
+    std::cout << "Finished loading config file - created " << sSystemVector.size() << " systems.\n";
+	return;
+}
+
+void SystemData::deleteSystems()
+{
+    for (unsigned int i=0; i<sSystemVector.size(); i++) {
+        delete sSystemVector.at(i);
+    }
+    sSystemVector.clear();
 }

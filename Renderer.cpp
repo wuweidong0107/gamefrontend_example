@@ -37,12 +37,12 @@ void Renderer::render()
 
 unsigned int Renderer::getScreenWidth()
 {
-    return 640;
+    return 1024;
 }
 
 unsigned int Renderer::getScreenHeight()
 {
-    return 480;
+    return 768;
 }
 
 void Renderer::drawRect(Sint16 x, Sint16 y, Uint16 h, Uint16 w, int color)

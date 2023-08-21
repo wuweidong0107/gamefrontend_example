@@ -10,15 +10,18 @@
 class GuiGameList : GuiComponent
 {
 public:
-    GuiGameList(SystemData* system);
+    GuiGameList();
     ~GuiGameList();
 
     void updateList();
+    void setSystemId(int id);
+
     void onRender();
     void onInput(InputManager::InputButton button, bool keyDown);
 
 private:
     SystemData* mSystem;
+    int mSystemId;
     GuiList* mList;
 };
 
