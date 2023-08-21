@@ -38,5 +38,7 @@ void GuiGameList::onRender()
 
 void GuiGameList::onInput(InputManager::InputButton button, bool keyDown)
 {
-    
+    if (button == InputManager::BUTTON1 && keyDown) {
+        mSystem->launchGame(mList->getSelection());
+    }
 }

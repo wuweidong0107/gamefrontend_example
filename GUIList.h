@@ -17,6 +17,7 @@ public:
     
     std::string getSelectedName();
     void* getSelectedObject();
+    int getSelection();
 
 private:
     std::vector<std::string> mNameVector;

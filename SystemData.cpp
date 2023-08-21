@@ -4,6 +4,7 @@
 #include <iostream>
 #include <boost/filesystem.hpp>
 #include <fstream>
+#include <stdlib.h>
 
 namespace fs = boost::filesystem;
 
@@ -12,7 +13,7 @@ SystemData::SystemData(std::string name, std::string startPath, std::string exte
     mName = name;
     mStartPath = startPath;
     mSearchExtension = extension;
-    mLaunchCommand == command;
+    mLaunchCommand = command;
     buildGameList();
 }
 
@@ -68,9 +69,20 @@ void SystemData::buildGameList()
     }
 }
 
+std::string strreplace(std::string& str, std:: string replace, std::string with)
+{
+    size_t pos = str.find(replace);
+    return str.replace(pos, replace.length(), with.c_str(), with.length());
+}
+
 void SystemData::launchGame(unsigned int i)
 {
+    std::string command = mLaunchCommand;
+    GameData* game = mGameVector.at(i);
 
+    command = strreplace(command, "%ROM%", game->getValidPath());
+    std::cout << "	" << command << "\n";
+    system(command.c_str());
 }
 
 std::vector<SystemData*> SystemData::loadConfig(std::string path)
@@ -112,7 +124,6 @@ std::vector<SystemData*> SystemData::loadConfig(std::string path)
                     sysCommand = varValue;
                 else
                     std::cerr << "Error reading config file - unknown variable name \"" << varName << "\"!\n";
-std::cout<<"---"<<sysName<<"---"<<sysPath<<"---"<<sysExtension<<"---"<<sysCommand<<"\n";
                 if (!sysName.empty() && !sysPath.empty() && !sysExtension.empty() && !sysCommand.empty()) {
                     returnVec.push_back(new SystemData(sysName, sysPath, sysExtension, sysCommand));
                     sysName = ""; sysPath = ""; sysExtension = "";

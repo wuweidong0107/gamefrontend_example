@@ -44,7 +44,6 @@ void GuiList::onInput(InputManager::InputButton button, bool keyDown)
 		if(mSelection >= (int)mNameVector.size())
 			mSelection -= mNameVector.size();
     }
-    std::cout << "select: " << mSelection << "\n";
 }
 
 
@@ -68,4 +67,9 @@ std::string GuiList::getSelectedName()
 void* GuiList::getSelectedObject()
 {
     return mPointerVector.at(mSelection);
+}
+
+int GuiList::getSelection()
+{
+    return mSelection;
 }
